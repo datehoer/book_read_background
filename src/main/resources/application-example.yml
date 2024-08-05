@@ -7,7 +7,18 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-
+  redis:
+    database: 5
+    host: localhost
+    port: 6379
+    password:
+    timeout: 10s
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: -1ms
+        max-idle: 10
+        min-idle: 0
 mybatis-plus:
   global-config:
     db-config:
@@ -23,3 +34,12 @@ mybatis-plus:
 
 server:
   port: 8000
+
+sa-token:
+  token-name: book-token
+  timeout: 2592000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: true
+  token-style: uuid
+  is-log: true

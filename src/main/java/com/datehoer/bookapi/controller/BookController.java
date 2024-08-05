@@ -1,5 +1,6 @@
 package com.datehoer.bookapi.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.datehoer.bookapi.common.PublicResponse;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/book")
 @RestController
-public class bookController {
+public class BookController {
     @Autowired
     private IBookService bookService;
-
+    @SaCheckLogin
     @GetMapping("/list")
     public IPage<Book> list(Book book) {
         PageModel pageModel = TableSupport.buildPageRequest();
@@ -28,6 +29,7 @@ public class bookController {
         queryWrapper.orderBy(true, pageModel.getIsAsc().equals("asc"), pageModel.getOrderByColumn());
         return bookService.selectPage(pageModel.getPageNum(), pageModel.getPageSize(), queryWrapper);
     }
+    @SaCheckLogin
     @GetMapping("/{bookId}")
     public PublicResponse<Book> getBookById(@PathVariable String bookId) {
         QueryWrapper<Book> queryWrapper = new QueryWrapper<>();

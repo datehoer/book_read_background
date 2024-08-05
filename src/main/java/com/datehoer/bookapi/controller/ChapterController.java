@@ -1,5 +1,6 @@
 package com.datehoer.bookapi.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.datehoer.bookapi.common.PublicResponse;
@@ -19,9 +20,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chapter")
-public class chapterController {
+public class ChapterController {
     @Autowired
     private IChapterService chapterService;
+    @SaCheckLogin
     @GetMapping("/list")
     public IPage<Chapter> list(Chapter chapter){
         PageModel pageModel = TableSupport.buildPageRequest();
@@ -29,6 +31,7 @@ public class chapterController {
         chapterQueryWrapper.orderBy(true, pageModel.getIsAsc().equals("asc"), pageModel.getOrderByColumn());
         return chapterService.selectPage(pageModel.getPageNum(), pageModel.getPageSize(),chapterQueryWrapper);
     }
+    @SaCheckLogin
     @GetMapping("/getChapterNeighbors")
     public PublicResponse<List<ChapterVo>> getChapterNeighbors(Chapter chapter){
         return PublicResponse.success(chapterService.getChapterNeighbors(chapter));
