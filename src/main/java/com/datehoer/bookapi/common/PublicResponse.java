@@ -10,12 +10,12 @@ public class PublicResponse<T> {
 
     // 默认成功响应
     public static <T> PublicResponse<T> success(T object) {
-        return success(1, "success", object);
+        return success(200, "success", object);
     }
 
     // 指定消息的成功响应
     public static <T> PublicResponse<T> success(String msg, T object) {
-        return success(1, msg, object);
+        return success(200, msg, object);
     }
 
     // 指定代码和消息的成功响应
