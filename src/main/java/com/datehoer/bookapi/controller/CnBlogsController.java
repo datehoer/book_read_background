@@ -1,5 +1,7 @@
 package com.datehoer.bookapi.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +32,8 @@ public class CnBlogsController {
     private CnBlogsContentService cnBlogsContentService;
     @Value("${my-background.api-url}")
     private String backgroundApiUrl;
+    @Value("${my-background.directory-path}")
+    private String directoryPath;
     @GetMapping("/list")
     public IPage<CnBlogs> list(CnBlogs cnBlogs){
         PageModel pageModel = TableSupport.buildPageRequest();
@@ -55,5 +62,30 @@ public class CnBlogsController {
         String res = HttpRequestUtils.post(url, jsonBody);
         JSONObject jsonResponse = JSON.parseObject(res);
         return PublicResponse.success(jsonResponse);
+    }
+
+    @PostMapping("/publish")
+    public PublicResponse<String> publishMarkdown(@RequestBody MarkdownPublish markdownPublish){
+
+        String[] tagsList = markdownPublish.getTags().split(",");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDateTime.format(dateFormatter);
+        StringBuilder formattedText = new StringBuilder();
+        formattedText.append("---\n");
+        formattedText.append("title: ").append(markdownPublish.getTitle()).append("\n");
+        formattedText.append("tags:\n");
+        for (String tag : tagsList) {
+            formattedText.append("  - ").append(StrUtil.trim(tag)).append("\n");
+        }
+        formattedText.append("date: ").append(formattedDate).append("\n");
+        formattedText.append("---\n");
+        formattedText.append(markdownPublish.getMarkdown());
+        String sanitizedTitle = markdownPublish.getTitle().replaceAll("[\\\\/:*?\"<>|]", "_");
+        String fileName = sanitizedTitle + ".md";
+        FileUtil.mkdir(directoryPath);
+        String filePath = Paths.get(directoryPath, fileName).toString();
+        FileUtil.writeString(formattedText.toString(), filePath, "UTF-8");
+        return PublicResponse.success("success");
     }
 }

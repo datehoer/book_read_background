@@ -19,6 +19,9 @@ spring:
         max-wait: -1ms
         max-idle: 10
         min-idle: 0
+  devtools:
+    restart:
+      additional-exclude: publish/**
 mybatis-plus:
   global-config:
     db-config:
@@ -46,3 +49,5 @@ sa-token:
 
 my-background:
   api-url: http://127.0.0.1:4489
+  directory-path: publish
+
