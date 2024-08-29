@@ -1,6 +1,5 @@
 package com.datehoer.bookapi.controller;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -17,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -83,9 +84,14 @@ public class CnBlogsController {
         formattedText.append(markdownPublish.getMarkdown());
         String sanitizedTitle = markdownPublish.getTitle().replaceAll("[\\\\/:*?\"<>|]", "_");
         String fileName = sanitizedTitle + ".md";
-        FileUtil.mkdir(directoryPath);
-        String filePath = Paths.get(directoryPath, fileName).toString();
-        FileUtil.writeString(formattedText.toString(), filePath, "UTF-8");
-        return PublicResponse.success("success");
+        try{
+            Path directoryPathObj = Paths.get(directoryPath);
+            Files.createDirectories(directoryPathObj);
+            Path filePath = directoryPathObj.resolve(fileName);
+            Files.write(filePath, formattedText.toString().getBytes());
+            return PublicResponse.success("success");
+        } catch (Exception e) {
+            return PublicResponse.error("Error creating file: " + e.getMessage());
+        }
     }
 }
