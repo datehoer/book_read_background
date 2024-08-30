@@ -50,4 +50,5 @@ sa-token:
 my-background:
   api-url: http://127.0.0.1:4489
   directory-path: publish
-
+  script-path: script
+  script-name: deploy_vuepress.sh
