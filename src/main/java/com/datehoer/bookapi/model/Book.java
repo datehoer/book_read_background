@@ -53,4 +53,7 @@ public class Book{
 
     @TableField("is_like")
     private Integer isLike;
+
+    @TableField("book_cover")
+    private String bookCover;
 }

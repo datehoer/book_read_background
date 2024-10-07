@@ -1,5 +1,6 @@
 package com.datehoer.bookapi.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
@@ -35,6 +36,7 @@ public class CnBlogsController {
     private String backgroundApiUrl;
     @Value("${my-background.directory-path}")
     private String directoryPath;
+    @SaCheckLogin
     @GetMapping("/list")
     public IPage<CnBlogs> list(CnBlogs cnBlogs){
         PageModel pageModel = TableSupport.buildPageRequest();
@@ -42,6 +44,7 @@ public class CnBlogsController {
         queryWrapper.orderBy(true, pageModel.getIsAsc().equals("asc"), pageModel.getOrderByColumn());
         return cnBlogsService.selectPage(pageModel.getPageNum(), pageModel.getPageSize(), queryWrapper);
     }
+    @SaCheckLogin
     @GetMapping("/{cnblog_id}")
     public PublicResponse<CnBlog> getCnBlogsById(@PathVariable String cnblog_id){
         CnBlogs cnBlogs = cnBlogsService.selectById(cnblog_id);
@@ -51,7 +54,7 @@ public class CnBlogsController {
         CnBlog cnBlog = new CnBlog(cnBlogs, cnBlogsContent);
         return PublicResponse.success(cnBlog);
     }
-
+    @SaCheckLogin
     @PostMapping("/enhanceMarkdown")
     public PublicResponse<JSONObject> enhanceMarkdown(@RequestBody EnhanceMarkdown enhanceMarkdown){
         String url = backgroundApiUrl + "/process-markdown";
@@ -64,7 +67,7 @@ public class CnBlogsController {
         JSONObject jsonResponse = JSON.parseObject(res);
         return PublicResponse.success(jsonResponse);
     }
-
+    @SaCheckLogin
     @PostMapping("/publish")
     public PublicResponse<String> publishMarkdown(@RequestBody MarkdownPublish markdownPublish){
 
