@@ -10,10 +10,7 @@ import com.datehoer.bookapi.model.Book;
 import com.datehoer.bookapi.model.PageModel;
 import com.datehoer.bookapi.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/book")
@@ -35,5 +32,21 @@ public class BookController {
         QueryWrapper<Book> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("book_id", bookId);
         return PublicResponse.success(bookService.getOne(queryWrapper));
+    }
+    @SaCheckLogin
+    @PutMapping("/unlike/{id}")
+    public PublicResponse<Boolean> unlike(@PathVariable Long id) {
+        Book book = new Book();
+        book.setId(id);
+        book.setIsLike(0);
+        return PublicResponse.success(bookService.updateById(book));
+    }
+    @SaCheckLogin
+    @PutMapping("/like/{id}")
+    public PublicResponse<Boolean> like(@PathVariable Long id) {
+        Book book = new Book();
+        book.setId(id);
+        book.setIsLike(1);
+        return PublicResponse.success(bookService.updateById(book));
     }
 }

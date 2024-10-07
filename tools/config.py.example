@@ -1,0 +1,14 @@
+es_config = {
+    'host': 'http://localhost:9200',
+    'user': 'elastic',
+    'password': 'elastic'
+}
+
+mysql_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'root',
+    'database': 'book',
+    'charset': 'utf8mb4',
+    'port': 3306
+}

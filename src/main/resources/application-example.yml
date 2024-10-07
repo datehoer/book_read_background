@@ -52,3 +52,4 @@ my-background:
   directory-path: publish
   script-path: script
   script-name: deploy_vuepress.sh
+  move-path: /Volumes/MoveU1/book_read_background/blog

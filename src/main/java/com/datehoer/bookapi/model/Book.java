@@ -50,4 +50,7 @@ public class Book{
     @TableLogic
     @TableField("is_deleted")
     private Integer isDeleted;
+
+    @TableField("is_like")
+    private Integer isLike;
 }
