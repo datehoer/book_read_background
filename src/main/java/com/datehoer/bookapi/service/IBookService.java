@@ -19,4 +19,7 @@ public interface IBookService extends IService<Book> {
     List<Book> getRandomBook();
 
     List<Map<String, Object>> getBookPress();
+
+    List<Map<String, Object>> getBookTags();
+    List<Map<String, Object>> getBookPublishYear();
 }

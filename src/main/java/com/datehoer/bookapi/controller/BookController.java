@@ -74,4 +74,15 @@ public class BookController {
     public PublicResponse<List<Map<String, Object>>> getBookPress(){
         return PublicResponse.success(bookService.getBookPress());
     }
+
+    @SaCheckLogin
+    @GetMapping("/bookTags")
+    public PublicResponse<List<Map<String, Object>>> getBookTags(){
+        return PublicResponse.success(bookService.getBookTags());
+    }
+    @SaCheckLogin
+    @GetMapping("/bookPublishYear")
+    public PublicResponse<List<Map<String, Object>>> getBookPublishYear(){
+        return PublicResponse.success(bookService.getBookPublishYear());
+    }
 }

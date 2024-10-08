@@ -68,4 +68,12 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     public List<Map<String, Object>> getBookPress() {
         return bookMapper.getBookPress();
     }
+    @Override
+    public List<Map<String, Object>> getBookTags() {
+        return bookMapper.getBookTags();
+    }
+    @Override
+    public List<Map<String, Object>> getBookPublishYear() {
+        return bookMapper.getBookPublishYear();
+    }
 }
