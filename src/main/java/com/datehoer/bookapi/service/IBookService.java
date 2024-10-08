@@ -7,6 +7,7 @@ import com.datehoer.bookapi.model.Book;
 import com.datehoer.bookapi.model.BookStatistics;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IBookService extends IService<Book> {
     IPage<Book> selectPage(int pageNum, int pageSize, QueryWrapper<Book> queryWrapper);
@@ -14,4 +15,8 @@ public interface IBookService extends IService<Book> {
     BookStatistics getBookStatistics();
 
     List<Book> getBookAddTimeList();
+
+    List<Book> getRandomBook();
+
+    List<Map<String, Object>> getBookPress();
 }

@@ -8,12 +8,16 @@ import com.datehoer.bookapi.mapper.BookMapper;
 import com.datehoer.bookapi.model.Book;
 import com.datehoer.bookapi.model.BookStatistics;
 import com.datehoer.bookapi.service.IBookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IBookService {
+    @Autowired
+    private BookMapper bookMapper;
     @Override
     public IPage<Book> selectPage(int pageNum, int pageSize, QueryWrapper<Book> queryWrapper) {
         Page<Book> page = new Page<>(pageNum, pageSize);
@@ -50,5 +54,18 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         queryWrapper.select("book_name", "book_press", "update_time");
         queryWrapper.last("LIMIT 5");
         return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<Book> getRandomBook(){
+        QueryWrapper<Book> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id", "book_name", "book_description", "book_cover");
+        queryWrapper.last("ORDER BY RAND() LIMIT 5");
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBookPress() {
+        return bookMapper.getBookPress();
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RequestMapping("/book")
@@ -61,5 +62,16 @@ public class BookController {
     @GetMapping("/bookAddTimeList")
     public PublicResponse<List<Book>> getBookAddTimeList(){
         return PublicResponse.success(bookService.getBookAddTimeList());
+    }
+    @SaCheckLogin
+    @GetMapping("/randomBook")
+    public PublicResponse<List<Book>> getRandomBook(){
+        return PublicResponse.success(bookService.getRandomBook());
+    }
+
+    @SaCheckLogin
+    @GetMapping("/bookPress")
+    public PublicResponse<List<Map<String, Object>>> getBookPress(){
+        return PublicResponse.success(bookService.getBookPress());
     }
 }
