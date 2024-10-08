@@ -7,10 +7,13 @@ import com.datehoer.bookapi.common.PublicResponse;
 import com.datehoer.bookapi.common.QueryWrapperUtil;
 import com.datehoer.bookapi.common.TableSupport;
 import com.datehoer.bookapi.model.Book;
+import com.datehoer.bookapi.model.BookStatistics;
 import com.datehoer.bookapi.model.PageModel;
 import com.datehoer.bookapi.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RequestMapping("/book")
@@ -48,5 +51,15 @@ public class BookController {
         book.setId(id);
         book.setIsLike(1);
         return PublicResponse.success(bookService.updateById(book));
+    }
+    @SaCheckLogin
+    @GetMapping("/bookStatistics")
+    public PublicResponse<BookStatistics> getBookStatistics(){
+        return PublicResponse.success(bookService.getBookStatistics());
+    }
+    @SaCheckLogin
+    @GetMapping("/bookAddTimeList")
+    public PublicResponse<List<Book>> getBookAddTimeList(){
+        return PublicResponse.success(bookService.getBookAddTimeList());
     }
 }

@@ -18,8 +18,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/isLogin")
-    public SaResult isLogin() {
+    @RequestMapping("/logout")
+    public SaResult doLogout() {
         StpUtil.logout();
         return SaResult.ok();
     }
